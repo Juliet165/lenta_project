@@ -1,0 +1,48 @@
+<!-- templates/upload_photo.html -->
+{% extends 'base.html' %}
+
+{% block title %}Загрузить фотографию{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">Загрузить фотографию</h2>
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="{{ form.image.id_for_label }}" class="form-label">Фотография</label>
+            <input type="file" class="form-control" id="{{ form.image.id_for_label }}" name="{{ form.image.name }}" accept="image/*" required>
+            <div class="invalid-feedback">Пожалуйста, выберите фотографию для загрузки.</div>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.album.id_for_label }}" class="form-label">Альбом</label>
+            <select class="form-select" id="{{ form.album.id_for_label }}" name="{{ form.album.name }}" required>
+                <option value="">Выберите альбом</option>
+                {% for album in form.album.field.queryset %}
+                <option value="{{ album.id }}">{{ album.title }}</option>
+                {% endfor %}
+            </select>
+            <div class="invalid-feedback">Пожалуйста, выберите альбом для фотографии.</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Загрузить</button>
+    </form>
+</div>
+
+<script>
+    // Включение валидации формы Bootstrap
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+{% endblock %}

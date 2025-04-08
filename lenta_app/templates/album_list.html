@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1>Мои альбомы</h1>
+    <div class="row">
+        {% for data in album_data %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                {% if data.random_photo %}
+                <img src="{{ data.random_photo.image.url }}" class="card-img-top" alt="Случайная фотография">
+                {% else %}
+                <img src="{% static 'images/default_album_cover.jpg' %}" class="card-img-top" alt="Обложка альбома по умолчанию">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ data.album.name }}</h5>
+                    <p class="card-text">{{ data.album.description }}</p>
+                    <a href="{% url 'photo_list' album_id=data.album.id %}" class="btn btn-primary">Посмотреть фотографии</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col">
+            <p>У вас пока нет альбомов.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

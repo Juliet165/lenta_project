@@ -1,0 +1,32 @@
+<!-- templates/photo_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Photos{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Photos</h2>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for photo in photos %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="position-relative">
+                <img src="{{ photo.image.url }}" class="card-img-top" alt="Photo" style="height: 200px; object-fit: cover;">
+                <div class="card-img-overlay d-flex flex-column justify-content-end text-white p-3" style="background-color: rgba(0, 0, 0, 0.7); opacity: 0; transition: opacity 0.3s;">
+                    <p class="card-text mb-1">Uploaded by <strong>{{ photo.user.username }}</strong></p>
+                    <p class="text-muted small mb-1">{{ photo.uploaded_at }}</p>
+                    <p class="text-muted small mb-0">Size: {{ photo.width }} x {{ photo.height }} px</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No photos uploaded.</p>
+    {% endfor %}
+</div>
+
+<style>
+    .card:hover .card-img-overlay {
+        opacity: 1;
+    }
+</style>
+{% endblock %}
